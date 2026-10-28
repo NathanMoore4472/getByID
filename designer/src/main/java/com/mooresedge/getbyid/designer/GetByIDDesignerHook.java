@@ -59,7 +59,8 @@ public class GetByIDDesignerHook extends AbstractDesignerModuleHook {
 		registry = pdi.getDesignerComponentRegistry();
 
 		// Each component must be registered, with an optional icon, to the component registry.
-		ComponentUtilities.registerComponentWithIcon(registry, Button.DESCRIPTOR, "/images/button-click.svg");
+		// The example Button is not registered for now as it isn't in use.
+		// ComponentUtilities.registerComponentWithIcon(registry, Button.DESCRIPTOR, "/images/button-click.svg");
 	}
 
 	/**
@@ -75,6 +76,6 @@ public class GetByIDDesignerHook extends AbstractDesignerModuleHook {
 	 * Removes registered components from the registry.
 	 */
 	private void removeComponents() {
-		registry.removeComponent(Button.COMPONENT_ID);
+		// registry.removeComponent(Button.COMPONENT_ID);
 	}
 }

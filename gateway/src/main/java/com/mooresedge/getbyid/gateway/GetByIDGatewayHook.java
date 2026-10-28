@@ -50,9 +50,11 @@ public class GetByIDGatewayHook extends AbstractGatewayModuleHook {
 		this.componentRegistry = this.perspectiveContext.getComponentRegistry();
 
 		if (this.componentRegistry != null) {
-			this.componentRegistry.registerComponent(Button.DESCRIPTOR);
+			// The example Button is not registered for now as it isn't in use.
+			// Uncomment here, in shutdown(), and in the Designer hook to bring it back.
+			// this.componentRegistry.registerComponent(Button.DESCRIPTOR);
 		} else {
-			log.error("Reference to component registry not found, Example Components will fail to function!");
+			log.error("Reference to component registry not found, Get By ID components will fail to function!");
 		}
 	}
 
@@ -61,11 +63,11 @@ public class GetByIDGatewayHook extends AbstractGatewayModuleHook {
 	 */
 	@Override
 	public void shutdown() {
-		log.info("Shutting down Example module and removing registered components.");
+		log.info("Shutting down Get By ID module and removing registered components.");
 		if (this.componentRegistry != null) {
-			this.componentRegistry.removeComponent(Button.COMPONENT_ID);
+			// this.componentRegistry.removeComponent(Button.COMPONENT_ID);
 		} else {
-			log.warn("Component registry was null, could not unregister Example Components.");
+			log.warn("Component registry was null, could not unregister Get By ID components.");
 		}
 	}
 
