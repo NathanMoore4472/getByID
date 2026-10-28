@@ -1,0 +1,27 @@
+services:
+  gateway:
+    image: inductiveautomation/ignition:8.3.9
+    environment:
+      ACCEPT_IGNITION_EULA: Y
+      GATEWAY_ADMIN_USERNAME: ${GATEWAY_USERNAME:-admin}
+      GATEWAY_ADMIN_PASSWORD: ${GATEWAY_PASSWORD:-password}
+      IGNITION_EDITION: standard
+      # 8.3 treats this as an allowlist of fully-qualified module ids, including third-party modules
+      GATEWAY_MODULES_ENABLED: com.inductiveautomation.perspective,com.mooresedge.getbyid.GetByID
+      # Accept the module's license and certificate on first boot so it loads without commissioning clicks
+      ACCEPT_MODULE_LICENSES: com.mooresedge.getbyid.GetByID
+      ACCEPT_MODULE_CERTS: com.mooresedge.getbyid.GetByID
+      DISABLE_QUICKSTART: true
+    volumes:
+      # Ignition 8.3 loads modules only at startup. After `./gradlew build`, run `docker compose restart gateway`.
+      # Set MODULE_FILE=Get-By-ID.modl in docker/.env when building with signModule=true.
+      - ../build/${MODULE_FILE:-Get-By-ID.unsigned.modl}:/usr/local/bin/ignition/user-lib/modules/Get-By-ID.modl
+      - ../web:/web-resources
+    # No Traefik proxy: the gateway is published directly at http://localhost:9088
+    ports:
+      - "9088:8088"
+    command: >
+      -n get-by-id-gateway
+      --
+      -Dignition.allowunsignedmodules=true
+      -Dres.path.com.mooresedge.getbyid.GetByID=/web-resources/build/generated-resources/mounted
